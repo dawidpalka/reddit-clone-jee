@@ -15,12 +15,18 @@ public class DiscoveryService {
                 .collect(Collectors.toList());
     }
 
-    private DiscoveryBasicInfo map(Discovery d) {
+    public List<DiscoveryBasicInfo> findByCategory(int categoryId) {
+        return discoveryDao.findByCategory(categoryId)
+                .stream().map(this::map)
+                .collect(Collectors.toList());
+    }
+
+    private DiscoveryBasicInfo map(Discovery discovery) {
         return new DiscoveryBasicInfo(
-                d.getTitle(),
-                d.getUrl(),
-                d.getDescription(),
-                d.getDateAdded()
+                discovery.getTitle(),
+                discovery.getUrl(),
+                discovery.getDescription(),
+                discovery.getDateAdded()
         );
     }
 }
