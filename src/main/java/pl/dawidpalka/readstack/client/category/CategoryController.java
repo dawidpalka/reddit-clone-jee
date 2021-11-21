@@ -26,6 +26,6 @@ public class CategoryController extends HttpServlet {
         req.setAttribute("category", category);
         List<DiscoveryBasicInfo> discoveries = discoveryService.findByCategory(categoryId);
         req.setAttribute("discoveries", discoveries);
-        req.getRequestDispatcher("/category.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/category.jsp").forward(req, resp);
     }
 }
