@@ -1,9 +1,7 @@
 package pl.dawidpalka.readstack.domain.category;
 
-import pl.dawidpalka.readstack.config.DataSourceProvider;
+import pl.dawidpalka.readstack.domain.common.BaseDao;
 
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,16 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CategoryDao {
-    private final DataSource dataSource;
+public class CategoryDao extends BaseDao {
 
-    public CategoryDao() {
-        try {
-            dataSource = DataSourceProvider.getDataSource();
-        } catch (NamingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     public List<Category> findAll() {
         final String query = """
@@ -31,7 +22,7 @@ public class CategoryDao {
                 FROM
                     category c
                 """;
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
 
             ResultSet resultSet = statement.executeQuery(query);
@@ -55,7 +46,7 @@ public class CategoryDao {
                 WHERE
                     id = ?
                 """;
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, categoryId);
             ResultSet resultSet = statement.executeQuery();
